@@ -28,6 +28,10 @@ function newFunction() {
                 res.setHeader('content-type', 'text/html');
                 res.end(content);
             });
+        } else if (parseUrl.pathname == '/stream') {
+            // when url url match with /steram './node.pdf' file is steraming
+            fs.createReadStream('./node.pdf', { bufferSize: 64 * 1024 }).pipe(res);
+
         } else {
             fs.readFile('./404.html', (err, content) => {
                 if (err) return res.end(err);
