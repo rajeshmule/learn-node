@@ -1,4 +1,4 @@
-# learn-node
+# Learn Node.js
 
 # Day-1
 ## 1. What is node ?(10 min)
