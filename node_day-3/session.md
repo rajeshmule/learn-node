@@ -49,6 +49,7 @@ In order to listen to those events, we use listeners methods defined on those ev
 It takes named event as first argument and callback function as second.
 
 For example 
+
 ```js
 var server = http.createServer();
     // request is named event emitted by createServer
@@ -60,6 +61,7 @@ server.on('request', function(req, res) {
 **createReadStream** method is also an eventEmitter which emits *data* event in order to capture data and *end* event when entire file is read.
 
 Examples are:
+
 ```js
 var store = fs.createReadStream(path to file)
 
@@ -71,6 +73,7 @@ store.on('end', () => {
   res.end()
 })
 ```
+
 #### Practice(5 min)
 Use createReadStream method to read a file and send data to response one chunk at a time.
 
@@ -97,6 +100,7 @@ req.on('data', (chunk) => {
 ```
 
 When all data is received *end* event fires with a callback function with no arguments to mark data completion.
+
 ```js
 req.on('end', () => {
     // Send response here
@@ -106,6 +110,7 @@ req.on('end', () => {
 After the end event fires, we can send response.
 
 The entire operation may look like: 
+
 ```js
 var http = require('http');
 http.createServer(function(req, res) {
@@ -134,6 +139,7 @@ Now we need to parse received data stored in store varibale.
 #### Parse JSON data(10 min)
 **JSON.parse** is used to parse json data.
 Example: 
+
 ```js
 JSON.parse(store);
 // It returns data in proper object format.
@@ -182,9 +188,9 @@ http.createServer((req, res) => {
     }
     // Similarily handle images
 })
- ``` 
+``` 
 
- ##### practice(10 min)
+##### practice(10 min)
  Render HTML file in response using http's createServer method with associated css and images. 
 
 
