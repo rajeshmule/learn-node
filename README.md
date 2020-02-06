@@ -1,77 +1,78 @@
 # Learn Node.js
 
-# Day-1
-## 1. What is node ?(10 min)
+## Day-1
+### What is node? (10 min)
 
-Node.js is an open-source, cross-platform, runtime environment that allows developers to create all kinds of server-side tools and applications in JavaScript.
+  Node.js is an open-source, cross-platform, runtime environment that allows developers to create all kinds of server-side tools and applications in JavaScript.
 
-Node.js is a packaged compilation of Google’s V8 JavaScript engine, the libuv platform abstraction layer, and a core library, which is itself primarily written in JavaScript.
+  Node.js is a packaged compilation of Google’s V8 JavaScript engine, the libuv platform abstraction layer, and a core library, which is itself primarily written in JavaScript.
 
-There are other independent libraries also used by nodeJS apart from few listed above. 
+  There are other independent libraries also used by nodeJS apart from few listed above. 
 
-The runtime is intended for use outside of a browser context (i.e. running directly on a computer or server OS). 
+  The runtime is intended for use outside of a browser context (i.e. running directly on a computer or server OS). 
 
-As such, the environment omits browser-specific JavaScript APIs and adds support for more traditional OS APIs including HTTP and file system libraries.
+  As such, the environment omits browser-specific JavaScript APIs and adds support for more traditional OS APIs including HTTP and file system libraries.
 
-## 2. Computer Execution(5 min)
+### Computer Execution (5 min)
 
-Computer does not understands higher languages like html, css or js. It only understands binary ie 1 and 0. There are tools available which converts those languages into binary.
+  Computer does not understands higher languages like html, css or js. It only understands binary ie 1 and 0. There are tools available which converts those languages into binary.
 
   1. Compilers
     - turns source code into executables(machine code)
+  
   2. Transpilers
     - turns source code into source code of other type
     - like coffeescript to javascript or scss /sass to css
+  
   3. Interpreters(compile+execute)
     - take source code and execute it by taking realtime intermediate steps like compiling it.
 
-### 3. v8 (5 min)
+### v8 (5 min)
 
-v8 engine is the runtime environment for nodejs. Node build on top of chrome v8 javascript engine.
+  v8 engine is the runtime environment for nodejs. Node build on top of chrome v8 javascript engine.
 
-v8 is single threaded(performs one task at a time) and used for core javascript computation.
+  v8 is single threaded(performs one task at a time) and used for core javascript computation.
 
-Call Stack is part of v8 which is responsible for executing functions in javascript.We will discuss callstack later.
+  Call Stack is part of v8 which is responsible for executing functions in javascript.We will discuss callstack later.
 
-v8 engine acts as an interpreter in our system.
+  v8 engine acts as an interpreter in our system.
 
 Examples of javscript engines
-    1. JavascriptCore(safari)
-    2. Spidermonkey(firefox)  
-    3. chakra(IEx)
+      1. JavascriptCore(safari)
+      2. Spidermonkey(firefox)  
+      3. chakra(IEx)
 
-##### Questions(5min)
-1. what is node ?
-2. differentiate compiler, transpiler and interpreter.
-3. explain v8
-4. Any 2 other javascript engines ?
+    ### Questions (5min)
+      1. what is node?
+      2. differentiate compiler, transpiler and interpreter.
+      3. explain v8
+      4. Any 2 other javascript engines ?
 
-## NodeJS presents itself as 2 apps 
-
-### 1. REPL(Read Eval Print Loop)(5 min)
+### REPL(Read Eval Print Loop) (5 min)
   - inteactive jS runtime which execs JS code on go
   - like console in browsers
   - starts event loop in background and waits for code snippets
   - for running REPL type **node** in TERMINAL
+  
   ```js
-  node
+    $ node
   ```
 
-  Steps are
-    - reads code from terminal
-    - evaluates them
-    - prints the result
-    - starts the same loop again ie waits for code snippet
+##### Steps are
+  - reads code from terminal
+  - evaluates them
+  - prints the result
+  - starts the same loop again ie waits for code snippet
 
 ##### Practice(5 min)
-    1.open REPL
-    2.execute some javascript code(2+2)
+  1.open REPL
+  2.execute some javascript code(2+2)
 
 ##### Questions(5 min)
-    Explain steps in REPL?
+  Explain steps in REPL?
 
 
-### 2. A Script processor(10 min)
+### A Script processor(10 min)
   - Initialises process called event loop in background
   - Reads in file you specify
   - Reads all deps in file and all deps of those file
@@ -81,13 +82,13 @@ Examples of javscript engines
 #### example for running a node script
 
 ```js
-node index.js(script_file name)
+$ node index.js
 ```
 
 ##### Practice(5 min)
 Write a script(index.js) and run it using **node index.js**
 
-#### Require(CommonJS pattern)(5 min)
+### Require(CommonJS pattern)(5 min)
 Require is a global in nodejs used to fetch extenal resoures into a file. 
 
 Globals can be used directly in nodejs without importing or requiring it.
@@ -97,7 +98,7 @@ Example is
 var fs = require('fs');
 ```
 
-#### Core node modules(5min)
+### Core node modules(5min)
 
 These modules are available in the projects, you simply have to require them in order to use them in your project. For example Filesystem aka fs module is inhereted in every node project. 
 
@@ -112,10 +113,11 @@ var fs = require('fs');
 
 ##### Practice(10 min)
 1. require fs in a file and use fs.readFile to read content of a file.
-```js
-fs.readFile(filepath, (err, file) => {
 
-})
+```js
+  fs.readFile(filepath, (err, file) => {
+
+  })
 ```
 
 ### Buffer(5 min)
@@ -125,6 +127,7 @@ Node provides Buffer class which provides instances to store raw data similar to
 It stores data in hexadecimal format.
 
 Create a new buffer like
+
 ```js
 var buf = new Buffer("Simply Easy Learning");
 ```
@@ -180,9 +183,9 @@ HTTP is connectionless/stateless text based req/res protocol. Clients (web brows
 	- HTTP (Hypertext Transfer Protocol) like any other Application Layer protocol runs over a Transport Layer protocol.
     - A new connection must be made for each request.
 
-#### 3 parts of http request
+### parts of http request
 
-##### 1. URLs
+#### A. URLs
 
 Request URLs consists of multiple parts.
 Example is *https://blog.altcampus.io:80/students/register?name=suraj&gender=male*
@@ -203,7 +206,7 @@ var url = require('url');
 url.parse("https://blog.altcampus.io:80/students/register?name=suraj&gender=male", true);
 ```
 
-##### 2. Headers
+#### B. Headers
 
 HTTP headers allow the client and the server to pass additional information with the request or the response. An HTTP header consists of its case-sensitive name followed by a colon ' : ', then by its value (without line breaks).
 
@@ -236,7 +239,7 @@ There are 4 kinds of headers
     - content-length: 344
     - mime-type: application/json
     
-#### 3. Body(optional)
+#### C. Body(optional)
 This is an optional field which is only sent when user is trying to submit any form data to the server.
 
 ##### Practice(5 min)
@@ -251,9 +254,9 @@ Nodes module system creates a dependency tree, which tells node which file are n
 
 Module.exports is used to export functions, objects, variables to other files which will use require global in order to use them.
 
-# Day-2
+## Day-2
 
-## http's createServer(15 min)
+### http's createServer(15 min)
 Node's inbuilt http or https module is used to create a server. HTTP module's createServer method is used to create a server.
 
 It receives request and response objects as callbacks which are responsible for acting on a specific request received. Based on a request, a response is send back to the caller and the cycle terminates after ending the response using response.end().
@@ -324,7 +327,7 @@ Get url from request object in a server.
 #### Practice
 Get request url from request object in a server.
 
-#### HTTP Request Methods(5 min)
+### HTTP Request Methods(5 min)
 There are multiple methods used to do request over HTTP.
     1. GET - fetch information
     2. POST - Insert data for first time
@@ -356,7 +359,7 @@ http.createServer((req, res) => {
 ##### practice
 Add statusCode and headers to response in Server
 
-#### handling request on multiple routes(10 min)
+### handling request on multiple routes(10 min)
 In order to handle multiple requests on our server, we need to extract the **url** or **pathname** from requested url.
 
 Once we have urls, we can run multiple if condition to check for a specific url and return respective content using res.write().
@@ -377,7 +380,7 @@ http.createServer((req, res) => {
 1. handle request on '/' and send 'welcome to homepage' in response.
 2. handle request on '/about' and send response 'this is all about NodeJS'.
 
-#### handling multiple http methods on same route(10 min)
+### handling multiple http methods on same route(10 min)
 There are different HTTP methods used to do request on same route. Same route can be used to handle different requests usnig different HTTP methods.
 
 for example, we can handle GET on '/' as well as a POST request on '/'. Both these requests will be treated as different request.
@@ -392,7 +395,7 @@ http.createServer((req, res) => {
 })
 ```
 
-#### Fetch query params from request(10 min)
+### Fetch query params from request(10 min)
 In order to fetch query params, we need to parse the entire url received from request using **req.url** using node's inbuilt url module.
 
 Suppose url is *http:localhost:3000?name=test*'
@@ -443,9 +446,9 @@ http.createServer((req, res) => {
 #### Practice(5 min)
 Create a http server and use createReadStream to read a file and pipe the chunk into response.
 
-# Day-3
+## Day-3
 
-#### Absolute and relative path(10 min)
+### Absolute and relative path(10 min)
 Absolute path provides path of a file or directory from the root of the system.
 
 __dirname is used to get absolute path of directory in which it is called.
@@ -526,7 +529,7 @@ Streams are recommended and widely used in node application as it differs from n
 
 We can read from requests. It uses streams for reading contents.In the same way, we can write to responses using streams as default. 
 
-#### Capturing data from request body(15 min)
+### Capturing data from request body(15 min)
 
 All the request information along with optional data is present in *request* object received as callback from createServer method.
 
@@ -578,7 +581,7 @@ Data can be send in one of these 2 formats
 
 Now we need to parse received data stored in store varibale.
 
-#### Parse JSON data(10 min)
+### Parse JSON data(10 min)
 **JSON.parse** is used to parse json data.
 Example: 
 ```js
@@ -589,7 +592,7 @@ JSON.parse(store);
 ##### practice(5 min)
 send json data from postman and pasre it into the server.
 
-#### Parse form data(10 min)
+### Parse form data(10 min)
  Form data is often received in query string format. 
  Example is *"name=abc&email=abc@gmail.com&age=24"*
 
@@ -605,14 +608,14 @@ send json data from postman and pasre it into the server.
 send form data from postman and parse it into the server.
 
 
- #### display HTML file in response(10 min)
+### display HTML file in response(10 min)
 
  When a HTML page is rendered or sent during the response, then for all associated resource linked into html like css, images, browser specific javascript, a seperate request is made to our server by the browser. 
  We have to handle all associated requests and send proper response for rendering associated css and images.
 
  for example, if html has associated css and images, for all images and css, we have to handle them seperately on different routes.
 
- ```js
+```js
  // read html file and send data
 http.createServer((req, res) => {
     if(req.url === '/') {
@@ -629,8 +632,7 @@ http.createServer((req, res) => {
     }
     // Similarily handle images
 })
- ``` 
+``` 
 
- ##### practice(10 min)
+#### practice(10 min)
  Render HTML file in response using http's createServer method with associated css and images. 
-
