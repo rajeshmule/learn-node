@@ -1,0 +1,15 @@
+{
+  "name": "session-1",
+  "version": "1.0.0",
+  "description": "learn package.json with npm init",
+  "main": "index.js",
+  "scripts": {
+    "start": "nodemon app.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Rajesh Mule",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.17.1"
+  }
+}
