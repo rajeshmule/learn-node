@@ -1,0 +1,14 @@
+{
+  "name": "solution-1",
+  "version": "1.0.0",
+  "description": "solurion of day 4",
+  "main": "app.js",
+  "scripts": {
+    "start": "nodemon start"
+  },
+  "author": "Rajesh Mule",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.17.1"
+  }
+}
