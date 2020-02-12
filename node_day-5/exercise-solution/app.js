@@ -1,7 +1,7 @@
 const express = require('express');
 const { connect } = require('mongoose');
 
-const User = require('./models/Users');
+const usersRouter = require('./routes/users');
 
 const port = process.env.PORT || 5000;
 const mongodbUrl = process.env.MONGODB_URI || 'mongodb://localhost:27017/day5-exerice';
@@ -20,17 +20,7 @@ const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-app.post('/users', (req, res, next) =>
-{
-    const data = req.body;
-    User.create(data, (err, createdUser) =>
-    {
-        if (err) return next(err);
-        res.json({ createdUser });
-    });
-});
-
-
+app.use('/api/users', usersRouter);
 
 // catch 404 and forward to error handler
 app.use((req, res, next) =>
@@ -40,10 +30,7 @@ app.use((req, res, next) =>
     next(err);
 });
 
-
-
 // error handler
-
 app.use((err, req, res, next) =>
 {
     res.status(err.status || 500);
