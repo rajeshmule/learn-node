@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+    <h1>List Of All Users</h1>
+    <%  %>
+    <a href=""></a>
+    <% users.forEach(user => { %>
+    <a href=<%= "users/" + user.id %> <h2><%= user.name %></h2>
+    </a>
+    <button>
+        <a href=<%= 'users/delete/' + user.id %>> remove user</a>
+    </button>
+    <button>
+        <a href=<%= 'users/update/' + user.id %>> update user</a>
+    </button>
+    <hr />
+    <% }) %>
+</body>
+
+</html>
