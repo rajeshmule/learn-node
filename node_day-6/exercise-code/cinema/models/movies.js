@@ -5,6 +5,14 @@ const movieSchema = new Schema({
         type: String,
         required: true,
         unique: true
+    },
+    director: {
+        type: String,
+        required: true
+    },
+    reating: {
+        type: Number,
+        required: true
     }
 }, { timestamps: true });
 
