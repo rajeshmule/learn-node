@@ -35,7 +35,6 @@ app.use(express.urlencoded({ extended: false }));
 // routers
 app.use('/users', usersRouter);
 
-
 app.use((req, res, next) =>
 {
     res.status(404);
