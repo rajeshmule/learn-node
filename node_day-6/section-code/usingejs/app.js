@@ -45,6 +45,7 @@ app.use((req, res, next) =>
 //An error handling middleware
 app.use((err, req, res, next) =>
 {
+    console.log(err);
     res.status(500);
     res.send("Oops, something went wrong.")
 });
