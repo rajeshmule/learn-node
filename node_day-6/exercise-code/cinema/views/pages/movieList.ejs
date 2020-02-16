@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <% include ../partials/head %>
+</head>
+
+<body>
+    <% include ../partials/header %>
+    <div class="container">
+        <h3 class="center-align">List All Movies</h3>
+
+        <div class="row">
+            <% movies.forEach( movie => { %>
+            <div class=" col s12 m6 l3 ">
+                <a href=<%= "movies/" + movie.id %>>
+                    <div class="card blue-grey darken-1 hoverable">
+                        <div class="card-content white-text">
+                            <span class="card-title"><%= movie.title %></span>
+                            <p><%= movie.director %> </p>
+                            <span>
+                                <%= movie.reating %>
+                            </span>
+
+                        </div>
+
+                    </div>
+                </a>
+            </div>
+
+
+            <% }) %>
+
+        </div>
+
+    </div>
+    <div class="fixed-action-btn">
+        <a class="btn-floating btn-large waves-effect waves-light red" href="/movies/new"><i
+                class="material-icons">add</i></a>
+    </div>
+    <% include ../partials/footer %>
+</body>
+
+</html>

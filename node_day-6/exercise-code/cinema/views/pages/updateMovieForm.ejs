@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <% include ../partials/head %>
+</head>
+
+<body>
+    <% include ../partials/header %>
+    <div class="container">
+        <h3 class="center-align">Add Movie</h3>
+        <div class="row">
+            <form class="col s12" action="/movies/update/<%= movie.id %>" method="POST">
+
+
+                <div class="row">
+                    <div class="input-field col s12">
+                        <input type="text" name="title" value="<%= movie.title %> " class="validate">
+                        <label for="title">Title</label>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="input-field col s12">
+                        <input type="text" name="director" value="<%= movie.director %> " class="validate">
+                        <label for="director">Director</label>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="input-field col s3">
+                        <label for="range">Rating <%= movie.reating %> out of 5</label>
+                    </div>
+                    <div class="input-field col s9">
+                        <p class="range-field">
+                            <input type="range" value=<%= movie.reating %> min="0" max="5" name="reating" />
+                        </p>
+                    </div>
+                </div>
+
+                <div class="right-align">
+                    <button class="btn waves-effect waves-light" type="submit">Submit
+                        <i class="material-icons right">send</i>
+                    </button>
+                    <!-- <input type="submit" /> -->
+                </div>
+            </form>
+        </div>
+
+    </div>
+    <% include ../partials/footer %>
+</body>
+
+</html>
