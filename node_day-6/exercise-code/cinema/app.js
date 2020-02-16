@@ -3,12 +3,28 @@ var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
+const mongoose = require('mongoose');
 
-var indexRouter = require('./routes/index');
-var usersRouter = require('./routes/users');
-const moviesRouter = require('./routes/movies');
+const indexRouter = require('./routes/index');
+const usersRouter = require('./routes/users.route');
+const moviesRouter = require('./routes/movie.route');
+const commentRouter = require('./routes/comment.route')
 
-var app = express();
+const mongodbUrl = process.env.MONGODB_URI || 'mongodb://localhost:27017/cinema';
+
+//connect mongodb 
+mongoose.connect(mongodbUrl, {
+  useCreateIndex: true,
+  useUnifiedTopology: true,
+  useNewUrlParser: true,
+  useFindAndModify: false,
+  serverSelectionTimeoutMS: 5000
+}, () =>
+{
+  console.log("mongodb is connected");
+}).catch(err => console.log(err.reason));
+
+const app = express();
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views/pages'));
@@ -23,6 +39,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/movies', moviesRouter);
+app.use('/comments', commentRouter);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next)

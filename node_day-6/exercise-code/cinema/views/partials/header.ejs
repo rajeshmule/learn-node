@@ -1,17 +1,13 @@
 <!-- views/partials/header.ejs -->
-<nav class="navbar navbar-expand-md navbar-light bg-light">
-    <a href="#" class="navbar-brand">Cinema</a>
-    <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbarCollapse">
-        <span class="navbar-toggler-icon"></span>
-    </button>
+<nav>
+    <div class="container">
+        <div class="nav-wrapper">
+            <a href="/" class="brand-logo">cinema</a>
+            <ul id="nav-mobile" class="right hide-on-med-and-down">
 
-    <div class="collapse navbar-collapse" id="navbarCollapse">
-        <div class="navbar-nav">
-
-            <!-- <a href="/users/new" class="nav-item nav-link">New User</a> -->
-            <a href="/movies/new" class="nav-item nav-link">Add New Movie</a>
-
+                <li><a href="/movies">Movies List</a></li>
+                <!-- <li><a href="/movies/new">Add New Movie</a></li> -->
+            </ul>
         </div>
-
     </div>
 </nav>
