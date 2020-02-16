@@ -1,21 +1,19 @@
 const Comment = require('../models/comment.model');
 const Movie = require('../models/movie.model');
 
-exports.newComment = (req, res, next) =>
+exports.newComment = async (req, res, next) =>
 {
-    const data = req.body;
-    const id = req.body.movieId;
-    Comment.create(data, (err, comment) =>
-    {
-        console.log(id, data);
-        if (err) return next(err);
-        Movie.findByIdAndUpdate(id, { $push: { comments: data } }, (err, movie) =>
-        {
-            console.log(id);
-            // res.redirect(`/movie/ + $(id)`);
-            res.render('movieDetails', { movie });
-        });
+    console.log("inside new comment")
+    try {
+        const data = req.body;
+        const id = req.body.movieId;
+        let comment = await Comment.create(data);
+        let movie = await Movie.findByIdAndUpdate(id, { $push: { comments: comment.id } }, { new: true })
+            .populate('comments');
+        // res.render('movieDetails', { movie });
+        res.redirect(`/movies/${id}`);
 
-    });
-
+    } catch (error) {
+        res.send(error);
+    }
 }

@@ -34,10 +34,26 @@
                 </div>
             </form>
         </div>
-        <div>
-            <h1>comments</h1>
-            <%= movie.comments %>
+        <div class="container">
+            <div class="col s12 m7">
+
+                <% movie.comments.reverse().forEach( comment => { %>
+                <div class="card horizontal">
+                    <div class="card-stacked">
+                        <div class="card-content">
+                            <p><%= comment.commentBody %></p>
+                        </div>
+                        <div class="card-action">
+                            <p><%= new Date(comment.createdAt).toDateString() %> </p>
+                        </div>
+                    </div>
+                </div>
+                <% }) %>
+            </div>
         </div>
+
+
+    </div>
 
     </div>
     <div class="fixed-action-btn">
@@ -52,6 +68,8 @@
 
         </ul>
     </div>
+
+
     <% include ../partials/footer %>
 </body>
 

@@ -24,15 +24,21 @@ exports.listAllMovies = (req, res, next) =>
     });
 }
 
-exports.movieDetail = (req, res, next) =>
+exports.movieDetail = async (req, res, next) =>
 {
-    const id = req.params.id
-    Movie.findById(id, (err, movie) =>
-    {
-        if (err) next(err);
+    console.log("inside movieDetail")
+    try {
+        const id = req.params.id;
+        const movie = await Movie.findById(id).populate('comments');
         res.render('movieDetails', { movie });
-    })
+
+    } catch (err) {
+        next(err);
+    }
+
 }
+
+
 
 exports.updateMovieForm = (req, res, next) =>
 {
@@ -48,7 +54,7 @@ exports.updateMovie = (req, res, next) =>
 {
     const id = req.params.id;
     const data = req.body;
-    console.log(data);
+    // console.log(id);
     Movie.findByIdAndUpdate(id, data, (err, movie) =>
     {
         if (err) return next(err);
