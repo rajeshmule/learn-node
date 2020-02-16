@@ -5,23 +5,29 @@ exports.addNewMovie = (req, res) =>
     res.render('newMovieForm');
 }
 
-exports.createNewMovie = (req, res, next) =>
+exports.createNewMovie = async (req, res, next) =>
 {
     const data = req.body;
-    Movie.create(data, (err, createdMovies) =>
-    {
-        if (err) return next(err);
+    try {
+        const data = req.body;
+        await Movie.create(data);
         res.redirect('/movies');
-    });
+    } catch (err) {
+        next(err);
+    }
+
 }
 
-exports.listAllMovies = (req, res, next) =>
+exports.listAllMovies = async (req, res, next) =>
 {
-    Movie.find((err, movies) =>
-    {
-        if (err) next(err);
+    try {
+        const movies = await Movie.find(movies);
         res.render('movieList', { movies });
-    });
+
+    } catch (err) {
+        next(err);
+    }
+
 }
 
 exports.movieDetail = async (req, res, next) =>
@@ -35,39 +41,43 @@ exports.movieDetail = async (req, res, next) =>
     } catch (err) {
         next(err);
     }
-
 }
 
-
-
-exports.updateMovieForm = (req, res, next) =>
+exports.updateMovieForm = async (req, res, next) =>
 {
-    const id = req.params.id;
-    Movie.findById(id, (err, movie) =>
-    {
-        if (err) return next(err);
+    try {
+
+        const id = req.params.id;
+        const movie = await Movie.findById(id);
         res.render('updateMovieForm', { movie });
-    });
+
+    } catch (err) {
+        next(err);
+    }
 }
 
-exports.updateMovie = (req, res, next) =>
+exports.updateMovie = async (req, res, next) =>
 {
-    const id = req.params.id;
-    const data = req.body;
-    // console.log(id);
-    Movie.findByIdAndUpdate(id, data, (err, movie) =>
-    {
-        if (err) return next(err);
+    try {
+        const id = req.params.id;
+        const data = req.body;
+        await Movie.findByIdAndUpdate(id, data)
         res.redirect('/movies');
-    });
+
+    } catch (err) {
+        next(err);
+    }
 }
 
-exports.deleteMovie = (req, res, next) =>
+exports.deleteMovie = async (req, res, next) =>
 {
-    const id = req.params.id;
-    Movie.findByIdAndDelete(id, (err, deleteMovie) =>
-    {
-        if (err) return next(err);
+    try {
+        const id = req.params.id;
+        await Movie.findByIdAndDelete(id)
         res.redirect('/movies');
-    })
+
+
+    } catch (err) {
+        next(err);
+    }
 }
