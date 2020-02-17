@@ -7,7 +7,7 @@ exports.addNewMovie = (req, res) =>
 
 exports.createNewMovie = async (req, res, next) =>
 {
-    const data = req.body;
+
     try {
         const data = req.body;
         await Movie.create(data);
@@ -21,7 +21,8 @@ exports.createNewMovie = async (req, res, next) =>
 exports.listAllMovies = async (req, res, next) =>
 {
     try {
-        const movies = await Movie.find(movies);
+        console.log("inside list of all movies");
+        const movies = await Movie.find();
         res.render('movieList', { movies });
 
     } catch (err) {
