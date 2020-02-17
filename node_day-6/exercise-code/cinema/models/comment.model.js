@@ -5,13 +5,10 @@ const commentSchema = new Schema({
         type: String,
         required: true
     },
-    movie: {
+    movieId: {
         type: Schema.Types.ObjectId,
         ref: 'Movie'
     }
-    // movieId: {
-    //     type: String
-    // }
 }, { timestamps: true });
 
 const Comment = model('Comment', commentSchema);
