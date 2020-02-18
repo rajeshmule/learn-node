@@ -1,0 +1,12 @@
+1. Clone medium app
+    - create a user login and registration system
+    - add auth middleware to check for logged user
+    - create article when user is logged in
+    - add articles with fields
+        - title 
+        - description
+        - author(ObjectId of User)
+        - likes
+    -  each article should contain user id in author field .
+    - edit and delete user should be performed by logged user itself.
+    - add headers and footers as partials in ejs and render logged in user detail info or login/register button .
