@@ -1,5 +1,4 @@
 const Users = require('../models/user.model');
-const bcrypt = require('bcryptjs');
 
 exports.signUpForm = (req, res) =>
 {
@@ -29,9 +28,9 @@ exports.signIn = async (req, res, next) =>
         const { email, password } = req.body;
         const user = await Users.findOne({ email });
         if (!user) return next(error);
-        // const isMatch = await bcrypt.compare(password, user.password);
         const isMatch = await user.verifyPassword(password);
         if (!isMatch) return next(error);
+        req.session.username = user.name;
         res.redirect('/')
     } catch (error) {
         next(error);

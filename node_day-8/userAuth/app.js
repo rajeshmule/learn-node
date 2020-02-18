@@ -4,6 +4,9 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 const mongoose = require('mongoose');
+const session = require('express-session');
+const MongoStore = require('connect-mongo')(session);
+
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users.route');
@@ -35,6 +38,14 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 // app.use()
+//use sessions for tracking logins
+app.use(session({
+  secret: 'work hard dream big never give up',
+  resave: false,
+  saveUninitialized: true,
+  store: new MongoStore({ mongooseConnection: mongoose.connection })
+}));
+
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
