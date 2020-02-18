@@ -30,12 +30,14 @@ exports.signIn = async (req, res, next) =>
         if (!user) return next(error);
         const isMatch = await user.verifyPassword(password);
         if (!isMatch) return next(error);
-        req.session.username = user.name;
+        console.log("user=",user);
+        req.session.userid = user.id;
         res.redirect('/')
     } catch (error) {
         next(error);
     }
 }
+
 
 
 
