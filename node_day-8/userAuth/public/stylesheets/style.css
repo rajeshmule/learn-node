@@ -134,7 +134,35 @@ button:hover {
   }
 }
 
-h1,
+h1 {
+  text-align: center;
+  text-transform: uppercase;
+  color: tomato;
+  font-size: 25px;
+  text-shadow: 3px 3px 5px yellow;
+}
 p {
   text-align: center;
+  font-size: 20px;
+}
+
+.img {
+  margin: 20px auto;
+  width: 40%;
+  /* border: 2px solid gray; */
+  border-radius: 10px;
+  padding-top: 10px;
+}
+
+.textbox {
+  width: 50%;
+}
+
+.flex {
+  display: flex;
+}
+
+.box {
+  width: 50%;
+  margin: auto;
 }

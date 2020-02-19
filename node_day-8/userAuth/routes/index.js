@@ -11,7 +11,7 @@ router.get('/', function (req, res)
     // } else {
     //     res.redirect('/users/signin');
     // }
-    res.render('index', { title: 'Express' });
+    res.render('index', { title: 'userAuth' });
 
 });
 
