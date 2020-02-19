@@ -53,5 +53,7 @@ app.use((err, req, res, next) =>
 
 app.listen(port, () =>
 {
+    console.log("inside app.listen");
+
     console.log('Server listening on port ' + port);
 });

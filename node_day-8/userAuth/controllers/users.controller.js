@@ -2,6 +2,8 @@ const Users = require('../models/user.model');
 
 exports.signUpForm = (req, res) =>
 {
+
+
     res.render('signUp');
 }
 exports.signUp = async (req, res, next) =>
@@ -29,10 +31,14 @@ exports.signIn = async (req, res, next) =>
         const user = await Users.findOne({ email });
         if (!user) return next(error);
         const isMatch = await user.verifyPassword(password);
-        if (!isMatch) return next(error);
-        console.log("user=",user);
-        req.session.userid = user.id;
-        res.redirect('/')
+        if (!isMatch) return next(error)
+        console.log("inside user signin req to set session ");
+
+
+        // log the user in by adding user's id  it to session
+        req.session.userId = user.id;
+
+        res.redirect('/dashboard')
     } catch (error) {
         next(error);
     }
