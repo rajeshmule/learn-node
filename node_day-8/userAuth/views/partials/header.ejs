@@ -2,12 +2,13 @@
     <div class="header">
         <a href="/" class="logo">userauth</a>
         <div class="header-right">
-
+            <% if (loggedUser === null) { %>
             <a href="/users/signin">login</a>
             <a href="/users/signup">signup</a>
-            <a>
-
-            </a>
+            <% } else { %>
+            <a> <%= loggedUser.name %> </a>
+            <a href="/users/logout">logout</a>
+            <% } %>
 
 
         </div>

@@ -133,3 +133,7 @@ button:hover {
     float: none;
   }
 }
+
+h1 {
+  text-align: center;
+}

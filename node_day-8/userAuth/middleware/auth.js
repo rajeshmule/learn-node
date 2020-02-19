@@ -1,13 +1,15 @@
 const User = require('../models/user.model');
 
 module.exports = {
-    userInfo: (req, res, next) =>
+    sessionChecker: (req, res, next) =>
     {
-        console.log("inside auth.userInfo 1");
+        console.log("check sesssion => ", req.session);
         next();
     },
     userLoggedSession: (req, res, next) =>
     {
+        console.log("inside userLoggedSession");
+
         if (req.session && req.session.userId) {
             var userId = req.session.userId;
             User.findById(userId, (err, user) =>

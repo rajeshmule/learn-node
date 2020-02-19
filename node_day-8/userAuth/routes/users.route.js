@@ -17,5 +17,7 @@ router
   .get(controller.signInForm)
   .post(controller.signIn)
 
+router.get('/logout', controller.logout);
+
 
 module.exports = router;

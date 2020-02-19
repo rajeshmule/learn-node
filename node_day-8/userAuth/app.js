@@ -48,12 +48,7 @@ app.use(session({
   store: new MongoStore({ mongooseConnection: mongoose.connection })
 }));
 
-app.use((req, res, next) =>
-{
-  console.log(`client ${req.method} req from ${req.headers.referer}`);
-  next();
-});
-app.use(auth.userInfo);
+app.use(auth.sessionChecker);
 app.use(auth.userLoggedSession);
 
 app.use('/', indexRouter);
