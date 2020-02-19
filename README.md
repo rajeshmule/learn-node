@@ -40,14 +40,16 @@ Call Stack is part of v8 which is responsible for executing functions in javascr
 
 v8 engine acts as an interpreter in our system.
 
-Examples of javscript engines 1. JavascriptCore(safari) 2. Spidermonkey(firefox)  
- 3. chakra(IEx)
+Examples of javscript engines 1. JavascriptCore(safari) 2. Spidermonkey(firefox)
+
+3.  chakra(IEx)
 
     ### Questions (5min)
-      1. what is node?
-      2. differentiate compiler, transpiler and interpreter.
-      3. explain v8
-      4. Any 2 other javascript engines ?
+
+    1. what is node?
+    2. differentiate compiler, transpiler and interpreter.
+    3. explain v8
+    4. Any 2 other javascript engines ?
 
 ### REPL(Read Eval Print Loop) (5 min)
 
@@ -539,8 +541,9 @@ Examples are 1. http's createServer method 2. request object received as createS
 
 All methods which belong to eventEmitter class emit some named events.
 
-Examples are  
- 1. createServer method emits **request** and **error** events. 2. request emits **data** and **end** events
+Examples are
+
+1.  createServer method emits **request** and **error** events. 2. request emits **data** and **end** events
 
 In order to listen to those events, we use listeners methods defined on those events using _".on"_ event.
 
@@ -2162,7 +2165,7 @@ General convention of routes is:
 router.get('/dashboard', (req, res) => {
     Model.find({query}, callback => {
         if(err) // handle error
-        // send appropriate response 
+        // send appropriate response
     })
 })
 ```
@@ -2172,6 +2175,7 @@ If we have multiple routes this way, after handling 6 to 10 routes, router file 
 To avoid this, we shift entire ligic to controller, all the routing information and middlewares are present in the routes.
 
 For example:
+
 ```js
 var userController = require('../controllers/userController');
 // routes looks like
@@ -2181,33 +2185,35 @@ router.get('/dashboard', userController.dashboard);
 exports.dashboard = (req, res) => {
     Model.find({query}, callback => {
         if(err) // handle error
-        // send appropriate response 
+        // send appropriate response
     });
 }
 ```
+
 Folder structure is
-    routes
-        - users.js
-    controllers
-        - userController.js
+routes - users.js
+controllers - userController.js
 
 Here, all the user related routes are handled by userController file located inside
 controller folder. This makes routing clean and easy to handle.
 
-##### practice 
+##### practice
+
 handle all user realted router logic inside userController.
 
 ##### locals
+
 locals is an object availbale on the response which makes variable defined inside locals available to the templates which are rendered inside this request cycle.
 
 ```js
 app.use((req, res, next) => {
-    res.locals.name = "qwerty";
-    next();
-})
+  res.locals.name = "qwerty";
+  next();
+});
 ```
 
 ##### practice
+
 set your name in response locals and try to access it in templates
 
 #### basic authorization
@@ -2221,35 +2227,36 @@ Once a user is logged in, we can check for his session to verify logged in user,
 One way possible is for each resourec, we can check session and redirect him accordingly.
 
 ```js
-router.use('/dashboard', (req, res) => {
-    if(req.session && req.session.userId) {
-        res.render('dashboard')
-    } else {
-        res.redirect('/users/login');
-    }
-})
+router.use("/dashboard", (req, res) => {
+  if (req.session && req.session.userId) {
+    res.render("dashboard");
+  } else {
+    res.redirect("/users/login");
+  }
+});
 ```
 
 ##### practice
-  - render '/users' routes only when a user is logged in, otherwise redirect to login or index page
+
+- render '/users' routes only when a user is logged in, otherwise redirect to login or index page
 
 The other method is, we create a authorization middleware that checks for a session and redirects accordingly. This authorization middleware will be created once, used where ever needed.
 
 ```js
 var isUserLogged = (req, res, next) => {
-    if(req.session && req.session.userId) {
-        next()
-    } else {
-        res.redirect('/users/login')
-    }
-}
+  if (req.session && req.session.userId) {
+    next();
+  } else {
+    res.redirect("/users/login");
+  }
+};
 ```
 
 Now, on a specific route, if we want to check for logged in user, all we have to do is to plug above middleware in between routes and controller action.
 
 ```js
-router.get('/dashboard', isUserLogged, userController.dashboard)
-``` 
+router.get("/dashboard", isUserLogged, userController.dashboard);
+```
 
 We can place this middleware wherever logged in user is required.
 
@@ -2265,49 +2272,44 @@ router.post('/', ...) etc..
 ```
 
 ##### practice
-create a middleware for checking logged in user
-    - if logged, call next()
-    - if not, redirect to login page
-    - plug this middleware on all routes other than login and register.
 
+create a middleware for checking logged in user - if logged, call next() - if not, redirect to login page - plug this middleware on all routes other than login and register.
 
 #### user session middleware
 
 One better approach to fetch logged in user details is to place a session middleware in app.js, which checks for a logged in session, as soon as application starts, before handling any request on one of the routes.
 
-If a session is found, it retrieves user from session information and populates it in *request* as well as *locals* so that logged in user can be used in subsequent request handlers and also inside the templates.
-
+If a session is found, it retrieves user from session information and populates it in _request_ as well as _locals_ so that logged in user can be used in subsequent request handlers and also inside the templates.
 
 Ideally we create a util folder in root of project and create a file named sessions.js to store all the middleware for checking sessions.
 
-
 utils
-  - userSession.js
+
+- userSession.js
 
 Alternatively, we can define these middleware functions inside a controller named `authController.js`.
-
 
 ```js
 // inside userSession.js
 // require user model
-var User = require('../models/User');
+var User = require("../models/User");
 exports.userLoggedSession = (req, res, next) => {
-    if(req.session && req.session.userId) {
-        var userId = req.session.userId;
-        User.findById(userId, (err, user) => {
-            if(err) return next('Invalid userId in session');
-            // if user
-            // put user into request object
-            req.loggedUser = user;
-            res.locals.loggedUser = user;
-            next();
-        })    
-    } else {
-        req.loggedUser = null;
-        res.locals.loggedUser = null;
-        next()
-    }
-}
+  if (req.session && req.session.userId) {
+    var userId = req.session.userId;
+    User.findById(userId, (err, user) => {
+      if (err) return next("Invalid userId in session");
+      // if user
+      // put user into request object
+      req.loggedUser = user;
+      res.locals.loggedUser = user;
+      next();
+    });
+  } else {
+    req.loggedUser = null;
+    res.locals.loggedUser = null;
+    next();
+  }
+};
 ```
 
 Now, we can place **userSession** in app.js to check for a logged in session, if yes, it is going to provide user details in subsequent requests as well as locals for templates to access it.
@@ -2315,38 +2317,34 @@ Now, we can place **userSession** in app.js to check for a logged in session, if
 ```js
 // in app.js before handling routes
 // require at the top
-var userSession = require('./utils/userSession');
+var userSession = require("./utils/userSession");
 app.use(userSession.userLoggedSession);
 
-app.use('/', indexRoutes);
-app.use('/users', userRoutes);
+app.use("/", indexRoutes);
+app.use("/users", userRoutes);
 ```
 
-Now we can access logged in user details on any routes by calling *req.loggedUser*.
+Now we can access logged in user details on any routes by calling _req.loggedUser_.
 
 If a user is logged in, we will get entire user back or null when no user is logged in.
 
 We can also access user information in any templates, since we have also set user object in locals. It will return entire user object if logged in or null otherwise.
 
 ##### practice
-create a session middleware
-    - check for a user logged session
-    - if present, fetch user information using userId present in session by calling            User.findByID
-        - 
+
+create a session middleware - check for a user logged session - if present, fetch user information using userId present in session by calling User.findByID -
 
 ### partials
+
 partials are reusable template component which can be used with other templates when required.
 
 we can create a partials for header and footer component and use them in multiple templates when required.
 
 structure looks like
-views
-    - partials(folder)
-        - header.ejs
-        - footer.ejs
-    - index.ejs
+views - partials(folder) - header.ejs - footer.ejs - index.ejs
 
 If we want to use partials in index.ejs file, we can include it like:
+
 ```js
     // in index.ejs
     // first include header.ejs
@@ -2359,8 +2357,146 @@ If we want to use partials in index.ejs file, we can include it like:
 ```
 
 ##### practice
+
 create a header.ejs partial and display logged in user information, if user is logged else show login and register button.
 
+# day-10
 
+### passport
 
+passport is a npm package used for authenticating users through 3rd party applications like facebook, google, github etc..
 
+passport uses Oauth for authentication. Oauth means open authentication.
+
+Advantages are: 1. No extra registrations required 2. use trusted, existing 3rd party apps 3. Embedded session support
+
+Entire authentiaction is a 5 step process, which uses passport module to send requests for authenticated information from 3rd party applications.
+
+#### step 1(create app)
+
+create an oauth application with the provider. - go to their developers console - create an oauth application - specify redirect uris based on your routes in application - get clientId and secret from the application created.
+
+ClientId and Secret obtained from application will be used on behalf of application for authentiacating users.
+
+#### step 2(define routes)
+
+Create 2 seperate routes for handling authentication 1. For sending request to 3rp party application 2. callback url for handling success or failure conditions
+
+```js
+// route for sending request
+router.get("/auth/:provider", passport.authenticate("provider"));
+```
+
+This route is used to send request to a specific provider.
+
+As soon as this route is encountered, passport takes over and sends a request to the designated provider. It seacrches for a strategy defined for that provider.
+
+```js
+// route for handling success or failure
+router.get(
+  "/auth/:provider/callback",
+  passport.authenticate("provider", { failureRedirect: "/login" }),
+  function(req, res) {
+    // success redirect
+    res.redirect("/");
+  }
+);
+```
+
+This second route is handled when a success or failure occurs in the strategy defined for the provider.
+
+#### step 3(strategy)
+
+As soon as request is made using passport, passport looks for a strategy to handle authentication.
+
+It takes clientId, clientSecret and callbackURL and sends a request to 3rd party software for checking credentials.
+
+Once credentials are correct, it gives user a consent screen to permit the application to login on their behalf, once permission is granted, entire user data is avalibale to the application in a callback function defined on strategy.
+
+It provides accessToken, refreshToken , profile information and callback as last argument.
+
+We can return from the strategy by passing into the last argumnet that is callback either a error or user.
+
+Once callback is returned, it returns control to developer to deal with the profile information.
+
+We can only return by passing success or error in callback function.
+
+```js
+var passport = require("passport");
+// require passport-github to authenticate with github
+// define github strategy
+var GithubStrategy = require("passport-github").Strategy;
+
+// use github strategy to authenticate with github
+passport.use(
+  new GithubStrategy(
+    {
+      clientId: "",
+      clientSecret: "",
+      callbackURL: "/auth/github/callback"
+    },
+    function(accessToken, refreshToken, profile, cb) {
+      // profile has all information from the user
+      // Do save some profile information in local database
+      // return cb
+      // if user -> cb(null, user)
+      // if error -> cb(null, false)
+    }
+  )
+);
+```
+
+#### serializer and deserializer
+
+These function are provided to log a authenticated user into the session.
+
+##### serializer
+
+As soon a a user is returned from strategy, it means a sucees redirect and serializer have access to the user information.
+
+It takes the user info and creates a **passport.user** into the session and stores whatever is passed to the session.
+
+```js
+passport.serializeUser((user, done) => {
+  done(err, user.id);
+});
+```
+
+It takes authenticated user and done as callback and returns cb with error and user's id to be saved into session.
+
+##### deserilizer
+
+It takes the passport.user from the session and retrieves the user back into request cycles to be used later.
+
+```js
+passport.deserializeUser((id, done) => {
+  User.findById(id, (err, user) => {
+    if (err) return done(err, false);
+    done(null, user);
+  });
+});
+```
+
+It takes whatever is present in session, since we have saved id , it retrieves the user using user id and returns a done callback with user.
+
+#### middlewares
+
+When an authenticated request is made, Express will load the session into the req, making our serialized user data available at _req.session.passport.user_.
+
+```js
+var passport = require("passport");
+// place it after session have been defined
+
+//check for a session in requiest
+app.use(passport.initialize());
+// If user found in session, passes to deserializer
+app.use(passport.session());
+```
+
+Then, the first middleware, _initialize()_, will try to find that user in the request, or create it as an empty object if it doesn't exist (which would mean the user is not authenticated).
+
+And then, _session()_ will kick in which to determine if the request is authenticated by trying to find a serialized object in it.
+
+When it finds it, it'll pass it to deserializeUser which will use it to get the whole user data (maybe from the DB) and add it to req.user where we can use it to create other requests.
+
+Even though serializeUser is only called on log in, deserializeUser is a global middleware that'll get executed on every single request to make the full user object available for authenticated requests.
