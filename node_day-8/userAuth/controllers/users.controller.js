@@ -32,11 +32,10 @@ exports.signIn = async (req, res, next) =>
         if (!user) return next(error);
         const isMatch = await user.verifyPassword(password);
         if (!isMatch) return next(error)
-        console.log("inside user signin req to set session ");
-
-
+        console.log("inside signin before push user.id into session => ", req.session.userId);
         // log the user in by adding user's id  it to session
         req.session.userId = user.id;
+        console.log("inside signin after push user.id into session => ", req.session.userId);
 
         res.redirect('/dashboard')
     } catch (error) {
@@ -46,6 +45,7 @@ exports.signIn = async (req, res, next) =>
 
 exports.logout = (req, res, next) =>
 {
+    console.log("inside logout => ", req.session.userId);
     if (req.session) {
         // delete session object
         req.session.destroy(function (err)
@@ -56,6 +56,7 @@ exports.logout = (req, res, next) =>
                 return res.redirect('/');
             }
         });
+
     }
 }
 

@@ -48,7 +48,6 @@ app.use(session({
   store: new MongoStore({ mongooseConnection: mongoose.connection })
 }));
 
-app.use(auth.sessionChecker);
 app.use(auth.userLoggedSession);
 
 app.use('/', indexRouter);
