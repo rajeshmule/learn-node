@@ -1,17 +1,6 @@
 var passport = require('passport');
 var GithubStrategy = require('passport-github').Strategy;
 
-passport.use(new GithubStrategy({
-    clientID: process.env.GITHUB_CLIENT_ID,
-    clientSecret: process.env.GITHUB_CLIENT_SECRET,
-    callbackURL: "http://localhost:4000/auth/github/callback"
-},
-    function (accessToken, refreshToken, profile, done)
-    {
-        // we will just use the profile object returned by GitHub
-        return done(null, profile);
-    }
-));
 
 passport.serializeUser(function (user, done)
 {
@@ -26,3 +15,19 @@ passport.deserializeUser(function (user, done)
 
     done(null, user); // null is for errors
 });
+
+passport.use(new GithubStrategy({
+    clientID: process.env.GITHUB_CLIENT_ID,
+    clientSecret: process.env.GITHUB_CLIENT_SECRET,
+    callbackURL: "http://localhost:4000/auth/github/callback",
+    passReqToCallback: true,
+    scope: ['user:email']
+},
+    function (accessToken, refreshToken, profile, done)
+    {
+        // we will just use the profile object returned by GitHub
+        return done(null, profile);
+    }
+));
+
+

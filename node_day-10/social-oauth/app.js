@@ -39,7 +39,7 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-require('./module/passport');
+require('./config/passport');
 
 app.use(session({
   secret: "Work Hard",
