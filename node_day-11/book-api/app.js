@@ -9,6 +9,7 @@ require('dotenv').config();
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 const v1Router = require('./routes/v1Router');
+const v2Router = require('./routes/v2/index')
 
 //connect mongodb 
 mongoose.connect(process.env.MONGODB_URI, {
@@ -41,7 +42,7 @@ app.use('/', indexRouter);
 app.use('/users', usersRouter);
 // book-api router
 app.use('/api/v1', v1Router);
-
+app.use('/api/v2', v2Router);
 // catch 404 and forward to error handler
 app.use(function (req, res, next)
 {
