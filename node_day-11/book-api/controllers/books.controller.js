@@ -7,7 +7,7 @@ exports.createBook = async (req, res, next) =>
         const book = await Books.create(data);
         res.status(200).json({ book });
     } catch (error) {
-        res.status(500).json(error);
+        next(error);
     }
 }
 
