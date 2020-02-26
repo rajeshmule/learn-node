@@ -41,7 +41,7 @@ This allows the user to fully rely on data APIs that are stateless and even make
 to downstream services. It doesn’t matter which domains are serving your APIs, as 
 Cross-Origin Resource Sharing (CORS) won’t be an issue since it doesn’t use cookies.
 
-#### How session works ?
+#### How session works?
 
 A user’s credentials are sent as a POST request to the server. The server authenticates the user. If the credentials are valid, the server responds with a cookie, which is set on the user’s browser and includes a `SESSION ID` to identify the user. The user sessions are stored in memory either via files or in the database on the server.
 
