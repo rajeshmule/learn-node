@@ -1,5 +1,4 @@
 const User = require('../models/user.model');
-// const jwt = require('jsonwebtoken');
 const auth = require('../modules/auth');
 
 exports.signup = async (req, res, next) =>
