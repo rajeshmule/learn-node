@@ -1,4 +1,4 @@
-const User = require('../models/user.model');
+const User = require('../models/user');
 const auth = require('../modules/auth');
 
 exports.register = async (req, res, next) =>
@@ -28,5 +28,22 @@ exports.login = async (req, res, next) =>
         });
     } catch (err) {
         next(err);
+    }
+}
+
+exports.getCurrentUser = async (req, res, next) =>
+{
+    try {
+        var user = await User.findById(req.user.userId);
+
+        res.json({
+            user: {
+                user,
+                token: req.user.token
+            }
+        })
+    } catch (error) {
+        next(error)
+
     }
 }
