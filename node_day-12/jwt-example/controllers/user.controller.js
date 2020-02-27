@@ -1,7 +1,7 @@
 const User = require('../models/user.model');
 const auth = require('../modules/auth');
 
-exports.signup = async (req, res, next) =>
+exports.register = async (req, res, next) =>
 {
     try {
         const data = req.body;

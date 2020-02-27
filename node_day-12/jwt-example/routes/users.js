@@ -5,8 +5,8 @@ const controller = require('../controllers/user.controller');
 
 
 router
-  .route('/signup')
-  .post(controller.signup);
+  .route('/register')
+  .post(controller.register);
 
 router
   .route('/login')
