@@ -2500,3 +2500,260 @@ And then, _session()_ will kick in which to determine if the request is authenti
 When it finds it, it'll pass it to deserializeUser which will use it to get the whole user data (maybe from the DB) and add it to req.user where we can use it to create other requests.
 
 Even though serializeUser is only called on log in, deserializeUser is a global middleware that'll get executed on every single request to make the full user object available for authenticated requests.
+
+# day 11
+
+## REST API
+
+REST stands for representational state transfer.
+
+Each API endpoint represents a specific state of the application's resources and allowed
+to transfer data representing that specific state.
+
+API stands for application program interface. It is a means to interact between the application and the program serving data to that application.
+
+A restful Application/Architecture is characterized by following: 1. State and functionaily are divided into multiple resources. 2. Every resource is uniquely addressable using uniform and minimal set of commands using HTTP commands of GET, POST, PUT, DELETE. 3. The protocol is client/server, stateless, layered and supports caching.
+
+_REST defines 6 architectural constraints which make any web service – a true RESTful API_  
+ 1. Uniform Interface - A resource in the system should have only one logical URI and that should provide a way to fetch related or additional data. It’s always better to synonymise a resource with a web page.
+
+    	- Any single resource should not be too large and contain each and everything in its representation.
+
+    	- The resource representations across system should follow certain guidelines such as naming conventions, link formats or data format (xml or/and json).
+
+    	- All resources should be accessible through a common approach such as HTTP GET and similarly modified using a consistent approach.
+
+    2. Client/Server
+    	- This essentially means that client application and server application MUST be able to evolve separately without any dependency on each other. A client should know only resource URIs and that’s all.
+
+    3. Stateless
+    	- Make all client-server interaction stateless. Server will not store anything about latest HTTP request client made. It will treat each and every request as new. No session, no history.
+
+    	- If client application needs to be a stateful application for the end user, where user logs in once and do other authorized operations thereafter, then each request from the client should contain all the information necessary to service the request – including authentication and authorization details.
+
+    4. Cacheable
+    	- Caching brings performance improvement for client side, and better scope for scalability for a server because the load has reduced.
+
+    	- In REST, caching shall be applied to resources when applicable and then these resources MUST declare themselves cacheable. Caching can be implemented on the server or client side.
+
+    5. Layered System
+    	- REST allows you to use a layered system architecture where you deploy the APIs on server A, and store data on server B and authenticate requests in Server C, for example.
+
+    	- A client cannot ordinarily tell whether it is connected directly to the end server, or to an intermediary along the way.
+
+    6.Code on demand(optional)
+    	- Most of the time you will be sending the static representations of resources in form of XML or JSON. But when you need to, you are free to return executable code to support a part of your application e.g. clients may call your API to get a UI widget rendering code. It is permitted.
+
+Node applications are primarily used for 2 main purposes.
+
+1. Server side rendered application
+2. Serving APIs for client side applications
+
+As an API server, it handles all endpoints which serve one or multiple client applications.
+
+Based on client requirements, it handles requests from the clients through multiple API
+endpoints and serves the resoures respectively.
+
+An API server in node/express is not much diffenrent from normal server side rendered application, we avoid templates and serve all requests with json response.
+
+Whenever routes in node/express is used to serve as APIs for external application, we prefix the routes with `/api` to indicate that these are api routes.
+
+```js
+router.get("/api/users", (req, res, next) => {
+  Model.find({}, (err, users) => {
+    if (err) return res.status(500).json(err);
+    res.json({ users });
+  });
+});
+```
+
+##### practice
+
+create a books resource using an express applications
+
+- handle all API endpoints for book resource
+  1. GET /api/books - list of all books
+  2. GET /api/books/:id - get single book
+  3. POST /api/books - create a book
+  4. PUT /api/books/:id - update a book
+  5. DELETE /api/books/:id - delete a book
+
+### API Versioning
+
+Sometimes, we create an API server with some endpoints which is contantly in use by some clients. Now after some time, we decided to modify the endpoints to add some new features, new endpoints and modify the structure of previous endpoints.
+
+Since the API server is already in use, if we modify the existing endpoints, it may break the clients application who are using it.
+
+In Order to avoid such scenarios, we version API endpoints so that a later version APIs could contain updated endpoints without affecting the older ones. At this point, both API versions exists simuntaneously without affecting each other.
+
+```js
+app.use("/api/v1", v1Router);
+app.use("/api/v2", v2Router);
+```
+
+While developing API server, we generally use `POSTMAN` as client to mock API requests from the client.
+
+# day -12
+
+What Are JSON Web Tokens?
+
+JSON Web Token (JWT) is an open standard (RFC 7519) that defines a compact and
+self-contained way to securely transmit information between parties as a JSON Object.
+This information can be verified and trusted because it is digitally signed. JWTs can be
+signed using a secret.
+
+- Compact: Because of its size, it can be sent through an URL, POST parameter, or
+  inside an HTTP header. Additionally, due to its size its transmission is fast.
+
+- Self-contained: The payload contains all the required information about the user, to
+  avoid querying the database more than once.
+
+JWTs basically consist of three parts separated by a '.' . These are the header, payload
+and signature.
+
+A JWT typically looks like the following.
+
+`xxxxx.yyyyy.zzzzz`
+
+#### How JSON Web Tokens Work
+
+In authentication, when the user successfully logs in using his credentials, a JSON Web
+Token will be returned and must be saved locally (typically in local storage, but
+cookies can be also used), instead of the traditional approach of creating a session in
+the server and returning a cookie.
+
+Whenever the user wants to access a protected route, it should send the JWT, typically in
+the Authorization header. Therefore, the content of the header should look like the
+following:
+
+Authorization: <token>
+
+This is a stateless authentication mechanism as the user state is never saved in the
+server memory. The server’s protected routes will check for a valid JWT in the
+Authorization header, and if it is there, the user will be allowed. As JWTs are
+self-contained, all the necessary information is there, reducing the need to go back and
+forth to the database.
+
+This allows the user to fully rely on data APIs that are stateless and even make requests
+to downstream services. It doesn’t matter which domains are serving your APIs, as
+Cross-Origin Resource Sharing (CORS) won’t be an issue since it doesn’t use cookies.
+
+#### How session works?
+
+A user’s credentials are sent as a POST request to the server. The server authenticates the user. If the credentials are valid, the server responds with a cookie, which is set on the user’s browser and includes a `SESSION ID` to identify the user. The user sessions are stored in memory either via files or in the database on the server.
+
+While the user stays logged in, the cookie would be sent along with every subsequent request. The server can then compare the session id stored on the cookie against the session information stored in the memory to verify user’s identity and sends response with the corresponding state.
+
+#### JWTs vs. Sessions
+
+1. Scalability
+
+- Session based authentication: Because the sessions are stored in the server’s memory, scaling becomes an issue when there is a huge number of users using the system at once.
+
+- Token based authentication: There is no issue with scaling because token is stored on the client side.
+
+2. Multiple Device
+
+- Session based authentication: Cookies normally work on a single domain or subdomains and they are normally disabled by browser if they work cross-domain (3rd party cookies). It poses issues when APIs are served from a different domain to mobile and web devices.
+
+- Token based authentication: There is no issue with cookies as the JWT is included in the request header.
+
+3. Performance:
+
+- Token based auth: A critical analysis of this is very necessary. When making requests from the client to the server, if a lot of data is encoded within the JWT, it creates a significant amount of overhead with every HTTP request.
+- session based auth: However, with sessions, there is only a tiny amount of overhead because SESSION IDs are actually very small.
+
+##### benefits of using JWTs
+
+- They have the ability to create truly RESTful Services
+- They have built-in expiration functionality.
+- They are easy to scale horizontally
+- JSON Web Tokens are self-contained.
+
+### jsonwebtoken
+
+jsonwebtoken is a NPM package which we are going to use for generating and verifying token on the server side.
+
+Whenever a user logs in successfully on our site, we will generate a JWT token and send it to client in response.
+
+```js
+var jwt = require("jsonwebtoken");
+
+jwt.sign(payload, secret, callback => {});
+```
+
+- Signing JWT requires payload or claims which could be any object with some logged user information ie. \_id or email address.
+
+```js
+{
+  userid: user._id;
+} //payload
+```
+
+- Secret is any random strong string combination for generating signature.
+
+- Callback function returns either error or token which is generated.
+
+```js
+jwt.sign({userId: user._id, "thisisasecret", (err, token) => {
+  // send the token to client
+  res.json({ token });
+}})
+```
+
+Once the token has been sent to client, its clients responsibility to store the token somewhere either in localStorage or cookies.
+
+Now for each resource which is protected on the server, client has to send request along with token present in request headers.
+
+```js
+{
+  Authorization: <token>
+}
+```
+
+On the server side, each request for protected routes contains JWT token.
+
+Server creates a middleware for handling validity of token on each request.
+
+Since the token is being sent via headers, server ckecks for token inside headers. If
+token is present, validates the token via `jsonwebtoken's verify method and once token is validated, allow request to proceed further.
+
+```js
+var jwt = require('jsonwebtoken');
+jwt.verify(token, secret, (err, payload) => {
+  if(err) // invalid token
+  // token is validated, proceed to next request
+})
+```
+
+Entire middleware for validating token looks something like:
+
+```js
+var jwt = require("jsonwebtoken");
+
+const validateToken = (req, res, next) => {
+  var token = req.headers.authorization;
+  if (token) {
+    // use same secret used while generating token
+    jwt.verify(token, secret, (err, payload) => {
+      // error if token has been tempered
+      if (err) return res.status(400).json({ err });
+      // put payload info into request and allow request to proceed by calling next
+      req.user = payload;
+      next();
+    });
+  } else {
+    res.status(401).json({ error: "token is required" });
+  }
+};
+```
+
+We can place this middlleware before all protected routes
+
+- if there is no token, an error message with token is required message will be sent back to client.
+
+- if token has been changed or modified, it will be invalidated and an error message will be sent.
+
+- if token is valid, payload which contains logged user information is made availbale in request, so that it can be used in subsequent middlewares or routes.
+
+- lastly, we call next to allow valid users to proceed to next middleware for execution along with logged user informtion present in request.
